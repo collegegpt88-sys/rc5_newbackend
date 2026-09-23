@@ -1,0 +1,7 @@
+npm notice run rc5-backend@1.0.0 start
+npm notice run node server.js
+◇ injected env (12) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Running with MongoDB
+Port 3000 busy — freeing...
+MongoDB connected
+RC5 backend → http://localhost:3000
