@@ -20,35 +20,32 @@ app.use(helmet({
 }));
 
 const allowedOrigins = [
-  "https://indigo-spoonbill-956947.hostingersite.com",
-  "http://localhost:3000"
+  "https://rc5-newfrontend.onrender.com",      // Render frontend
+  "https://indigo-spoonbill-956947.hostingersite.com", // Hostinger
+  "http://localhost:3000",
+  "http://127.0.0.1:5500",
+  "http://localhost:5500"
 ];
 
 const corsOptions = {
   origin(origin, callback) {
+    // Allow browser requests without Origin (Postman, health checks)
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
-    return callback(new Error("CORS not allowed"));
+    return callback(new Error("CORS not allowed: " + origin));
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 204
 };
 
-app.use(cors({
-  origin: [
-    "https://indigo-spoonbill-956947.hostingersite.com",
-    "http://localhost:3000"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 204
-}));
-
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(mongoSanitize());
